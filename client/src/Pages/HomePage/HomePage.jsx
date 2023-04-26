@@ -1,11 +1,19 @@
-import React from 'react';
+import React from "react";
 
-function HomePage() {
+const Home = () => {
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
+
   return (
     <div>
-      <h1>Home</h1>
+      <nav>
+        <h1>fakebook</h1>
+        <button onClick={handleLogout}>Logout</button>
+      </nav>
     </div>
   );
-}
+};
 
-export default HomePage;
+export default Home;
