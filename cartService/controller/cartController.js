@@ -2,37 +2,44 @@
 import Cart from "../model/cartmodel.js";
 
 const addToCart = async (req, res) => {
-    try {
-      const { userId, productId, quantity, price } = req.body;
-  
-      // Find the user's cart
-      let cart = await Cart.findOne({ userId });
-  
-      // If cart does not exist, create a new cart
-      if (!cart) {
-        cart = await Cart.create({ userId, items: [] });
-      }
-  
-      // Check if the product already exists in the cart
-      const existingProduct = cart.items.find((item) => item.productId === productId);
-  
-      if (existingProduct) {
-        // If the product already exists, update the quantity and price
-        existingProduct.quantity += quantity;
-        existingProduct.price += price;
-      } else {
-        // If the product does not exist, add a new item to the cart
-        cart.items.push({ productId, quantity, price });
-      }
-  
-      await cart.save();
-  
-      res.json(cart);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("Server error");
+  try {
+    const { userId, productId, quantity, price } = req.body;
+
+    // Find the user's cart
+    let cart = await Cart.findOne({ userId });
+
+    // If cart does not exist, create a new cart
+    if (!cart) {
+      cart = await Cart.create({ userId, items: [] });
     }
-  };
+
+    // Check if the product already exists in the cart
+    const existingProduct = cart.items.find((item) => item.productId === productId);
+
+    if (existingProduct) {
+      // If the product already exists, update the quantity and price
+      existingProduct.quantity += quantity;
+      existingProduct.price += price;
+    } else {
+      // If the product does not exist, add a new item to the cart
+      cart.items.push({ productId, quantity, price });
+    }
+
+    // Add total to each item
+    cart.items = cart.items.map((item) => {
+      const total = item.quantity * item.price;
+      return { ...item, total };
+    });
+
+    await cart.save();
+
+    res.json(cart);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+};
+
 
   const getCart = async (req, res) => {
     try {

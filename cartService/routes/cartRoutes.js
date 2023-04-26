@@ -6,7 +6,7 @@ import {addToCart,getCart,updateCartQuantity,removeFromCart}  from "../controlle
 
 router.post('/cart', addToCart);
 router.get('/cart/:userId', getCart);
-router.put('/cart/:cartItemId', updateCartQuantity);
+router.put('/cart/:userId/:productId', updateCartQuantity);
 router.delete('/cart/:userId/:productId', removeFromCart);
 
 
