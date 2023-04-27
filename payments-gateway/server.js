@@ -64,8 +64,8 @@ app.post("/create-checkout-session", async (req, res) => {
         };
       }),
       mode: "payment",
-      success_url: `${process.env.CLIENT_URL}`,
-      cancel_url: `${process.env.CLIENT_URL}`,
+      success_url: `${process.env.SUCCESS_URL}`,
+      cancel_url: `${process.env.REDIRECT_URL}`,
       automatic_tax: {
         enabled: true,
       },

@@ -18,7 +18,9 @@ const SingleProduct = () => {
   }, [id]);
 
   const handleBuy = async () => {
-    alert("fuck");
+
+
+    window.location = '/cart';
   };
 
   if (!data) {

@@ -7,8 +7,6 @@ router.post("/", async (req, res) => {
     const { error } = validateUser(req.body);
     if (error) return res.status(400).send({ message: error.details[0].message });
 
-    console.log(req.body);
-
     const user = await User.findOne({ email: req.body.email });
 
     if (user) {
