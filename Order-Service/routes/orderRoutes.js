@@ -1,10 +1,14 @@
 import express from 'express';
-import { getAllOrders, createOrder } from '../controller/orderController.js';
+import { getOrders, createOrder ,getOrdersItems,getOrdersStatus } from '../controller/orderController.js';
+ 
 
 const router = express.Router();
 
 // get all orders
-router.get('/', getAllOrders);
+router.get('/:userId', getOrdersItems);
+router.get('/orders/:userId', getOrders);
+router.get('/orderstatus/:userId', getOrdersStatus);
+
 
 // create a new order
 router.post('/', createOrder);

@@ -6,6 +6,7 @@ import Cart from "./Components/CartPage/cartDisplay";
 import Checkout from "./Components/Payments/Checkout-button";
 import SignIn from "./Components/Login/login";
 import SignUp from "./Components/SignUp/signUp";
+import OrdersList from "./Components/OrderPage/OrderPage";
 
 function App() {
   const user = localStorage.getItem("token");
@@ -16,14 +17,17 @@ function App() {
           <>
             <Route path='/' exact element={<Home />} />
             <Route path='profile' element={<Profile />} />
-            <Route path='/cart' element={<Cart />} />
+            
             <Route path='/checkout' element={<Checkout />} />
           </>
         ) : (
           <>
             <Route path='/login' element={<SignIn />} />
             <Route path='/signUp' element={<SignUp />} />
+            <Route path='/cart' element={<Cart />} />
+            <Route path='/order' element={<OrdersList />} />
             <Route path='/' element={<Navigate replace to='/login' />} />
+
           </>
         )}
       </Routes>
