@@ -1,17 +1,17 @@
-import { useState } from "react";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import styles from "./styles.module.css";
+import { useState } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import styles from './styles.module.css';
 
 const SignUp = () => {
   const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
-    username: "",
-    email: "",
-    password: "",
+    firstName: '',
+    lastName: '',
+    username: '',
+    email: '',
+    password: '',
   });
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleChange = ({ currentTarget: input }) => {
@@ -21,12 +21,16 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:4100/api/users";
+      const url = 'http://localhost:4003/api/users';
       const { data: res } = await axios.post(url, data);
-      navigate("/login");
+      navigate('/login');
       console.log(res.message);
     } catch (error) {
-      if (error.response && error.response.status >= 400 && error.response.status <= 500) {
+      if (
+        error.response &&
+        error.response.status >= 400 &&
+        error.response.status <= 500
+      ) {
         setError(error.response.data.message);
       }
     }
