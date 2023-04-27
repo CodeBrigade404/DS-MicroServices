@@ -55,8 +55,8 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/contact">
-                Contact
+              <Link className="nav-link" to="/productsform/seller1">
+                Add a Product
               </Link>
             </li>
             <li className="nav-item">

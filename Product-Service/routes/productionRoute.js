@@ -16,13 +16,13 @@ router.post(
   createProductController
 );
 
-router.patch("/:id", upload.single("image"), updateProductController);
+router.patch("/update/:id", upload.single("image"), updateProductController);
 
-router.delete("/:id", deleteProductController);
+router.delete("/delete/:id", deleteProductController);
 
 router.get("/getProductbyId/:id", getProductbyIdController);
 
-router.get("/", getAllProductsController);
+router.get("/all/", getAllProductsController);
 
 router.get("/getProductbyName/:name", getProductByNameController);
 

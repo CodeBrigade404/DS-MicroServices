@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
-import './ProductEdit.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams, Link } from "react-router-dom";
+import "./ProductEdit.css";
 
 const ProductEdit = () => {
   const [data, setData] = useState(null);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [category, setCategory] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [imagePreviewUrl, setImagePreviewUrl] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [category, setCategory] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [imagePreviewUrl, setImagePreviewUrl] = useState("");
 
   const { id } = useParams();
 
@@ -36,21 +36,21 @@ const ProductEdit = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('name', name);
-    formData.append('description', description);
-    formData.append('price', price);
-    formData.append('quantity', quantity);
-    formData.append('category', category);
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("quantity", quantity);
+    formData.append("category", category);
 
     if (imageUrl instanceof File) {
-      formData.append('image', imageUrl, imageUrl.name);
+      formData.append("image", imageUrl, imageUrl.name);
     } else {
-      formData.append('imageUrl', imageUrl);
+      formData.append("imageUrl", imageUrl);
     }
 
-    await axios.patch(`http://localhost:4001/products/${id}`, formData);
-    alert('Product updated!');
-    console.log('id');
+    await axios.patch(`http://localhost:4001/products/update/${id}`, formData);
+    alert("Product updated!");
+    console.log("id");
     window.location.href = `http://localhost:3001/products/${id}`;
   };
 
@@ -59,12 +59,12 @@ const ProductEdit = () => {
   }
 
   return (
-    <div className='product-edit'>
+    <div className="product-edit">
       <h2>Edit Product</h2>
       <form onSubmit={handleSubmit}>
         <label>Name:</label>
         <input
-          type='text'
+          type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -75,20 +75,20 @@ const ProductEdit = () => {
         />
         <label>Price:</label>
         <input
-          type='number'
-          step='0.01'
+          type="number"
+          step="0.01"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
         <label>Quantity:</label>
         <input
-          type='number'
+          type="number"
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
         />
         <label>Category:</label>
         <input
-          type='text'
+          type="text"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         />
@@ -97,7 +97,7 @@ const ProductEdit = () => {
 
         <label>Image URL:</label>
         <input
-          type='file'
+          type="file"
           onChange={(e) => {
             setImageUrl(e.target.files[0]);
             const reader = new FileReader();
@@ -108,9 +108,9 @@ const ProductEdit = () => {
             reader.readAsDataURL(e.target.files[0]);
           }}
         />
-        {imagePreviewUrl && <img src={imagePreviewUrl} alt='product-image' />}
+        {imagePreviewUrl && <img src={imagePreviewUrl} alt="product-image" />}
 
-        <button type='submit'>Save</button>
+        <button type="submit">Save</button>
         <Link to={`/products/${id}`}>Cancel</Link>
       </form>
     </div>
