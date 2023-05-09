@@ -51,7 +51,7 @@ const ProductEdit = () => {
     await axios.patch(`http://localhost:4001/products/update/${id}`, formData);
     alert("Product updated!");
     console.log("id");
-    window.location.href = `http://localhost:3001/products/${id}`;
+    window.location.href = `http://localhost:3000/products/${id}`;
   };
 
   if (!data) {
