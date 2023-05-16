@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
+import jwtDecode from 'jwt-decode';
 
 const Login = () => {
   const [data, setData] = useState({ email: '', password: '' });
@@ -11,12 +12,23 @@ const Login = () => {
     setData({ ...data, [input.name]: input.value });
   };
 
+  const storeUserIdInCookie = (token) => {
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
+    const expiryTime = new Date(Date.now() + 50 * 60 * 1000); 
+    document.cookie = `userData=${JSON.stringify(decodedToken)}; path=/; expires=${expiryTime.toUTCString()};`;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const url = 'http://localhost:4003/api/auth';
       const { data: res } = await axios.post(url, data);
-      localStorage.setItem('token', res.data);
+      const token = res.data;
+      // Store the token in localStorage
+      localStorage.setItem('token', token);
+      // Store the user ID in a cookie
+      storeUserIdInCookie(token);
       window.location = '/';
     } catch (error) {
       if (
@@ -55,15 +67,15 @@ const Login = () => {
             />
             {error && <div className={styles.error_msg}>{error}</div>}
             <button type='submit' className={styles.green_btn}>
-              Sing In
+              Sign In
             </button>
           </form>
         </div>
         <div className={styles.right}>
-          <h1>New Here ?</h1>
+          <h1>New Here?</h1>
           <Link to='/signUp'>
             <button type='button' className={styles.white_btn}>
-              Sing Up
+              Sign Up
             </button>
           </Link>
         </div>
