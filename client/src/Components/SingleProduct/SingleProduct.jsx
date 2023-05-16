@@ -48,6 +48,7 @@ const SingleProduct = () => {
         productId: id,
         quantity: 1, 
         price: data.price, 
+        name: data.name
       });
 
    
