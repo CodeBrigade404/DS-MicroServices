@@ -5,8 +5,8 @@ import styles from './styles.module.css';
 import jwtDecode from 'jwt-decode';
 
 const Login = () => {
-  const [data, setData] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+  const [data, setData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
@@ -22,7 +22,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = 'http://localhost:4003/api/auth';
+      const url = "http://localhost:4003/api/auth";
       const { data: res } = await axios.post(url, data);
       const token = res.data;
       // Store the token in localStorage
@@ -31,11 +31,7 @@ const Login = () => {
       storeUserIdInCookie(token);
       window.location = '/';
     } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status <= 500
-      ) {
+      if (error.response && error.response.status >= 400 && error.response.status <= 500) {
         setError(error.response.data.message);
       }
     }
