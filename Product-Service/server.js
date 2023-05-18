@@ -4,9 +4,9 @@ import morgan from "morgan";
 import connectDB from "./config/db.js";
 import bodyParser from "body-parser";
 import cors from "cors";
-
+import userRoutes from "./routes/userRoutes.js";
 import productRouter from "./routes/productionRoute.js";
-
+import eventRouter from "./routes/eventRouter.js";
 // config env
 dotenv.config();
 
@@ -21,6 +21,9 @@ app.use(bodyParser.json());
 app.use(cors());
 //
 app.use("/products", productRouter);
+app.use("/api/user", userRoutes);
+
+app.use("/events", eventRouter);
 
 //rest api
 app.get("/", (req, res) => {

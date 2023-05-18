@@ -1,4 +1,9 @@
-.product-details-container {
+.lollol {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.product-details-containerlol {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -9,7 +14,7 @@
 
 .product-image {
   width: 50%;
-  max-width: 500px;
+  max-width: 600px;
   height: 500px;
   margin-right: 50px;
   display: flex;

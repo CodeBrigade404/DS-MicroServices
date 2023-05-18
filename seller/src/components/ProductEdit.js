@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import "./ProductEdit.css";
 
 const ProductEdit = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -51,7 +52,8 @@ const ProductEdit = () => {
     await axios.patch(`http://localhost:4001/products/update/${id}`, formData);
     alert("Product updated!");
     console.log("id");
-    window.location.href = `http://localhost:3001/products/${id}`;
+    navigate(`/products/${id}`);
+    // window.location.href = `http://localhost:3000/products/${id}`;
   };
 
   if (!data) {
@@ -59,60 +61,62 @@ const ProductEdit = () => {
   }
 
   return (
-    <div className="product-edit">
-      <h2>Edit Product</h2>
-      <form onSubmit={handleSubmit}>
-        <label>Name:</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <label>Description:</label>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <label>Price:</label>
-        <input
-          type="number"
-          step="0.01"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-        />
-        <label>Quantity:</label>
-        <input
-          type="number"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-        />
-        <label>Category:</label>
-        <input
-          type="text"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        />
-        <label>Image:</label>
-        <img src={imageUrl} />
+    <div className="product-edit-lol">
+      <div className="product-edit">
+        <h2>Edit Product</h2>
+        <form onSubmit={handleSubmit}>
+          <label>Name:</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <label>Description:</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <label>Price:</label>
+          <input
+            type="number"
+            step="0.01"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+          <label>Quantity:</label>
+          <input
+            type="number"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+          />
+          <label>Category:</label>
+          <input
+            type="text"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          />
+          <label>Image:</label>
+          <img src={imageUrl} />
 
-        <label>Image URL:</label>
-        <input
-          type="file"
-          onChange={(e) => {
-            setImageUrl(e.target.files[0]);
-            const reader = new FileReader();
-            reader.onload = (e) => {
+          <label>Image URL:</label>
+          <input
+            type="file"
+            onChange={(e) => {
+              setImageUrl(e.target.files[0]);
               const reader = new FileReader();
-              setImagePreviewUrl(e.target.result);
-            };
-            reader.readAsDataURL(e.target.files[0]);
-          }}
-        />
-        {imagePreviewUrl && <img src={imagePreviewUrl} alt="product-image" />}
+              reader.onload = (e) => {
+                const reader = new FileReader();
+                setImagePreviewUrl(e.target.result);
+              };
+              reader.readAsDataURL(e.target.files[0]);
+            }}
+          />
+          {imagePreviewUrl && <img src={imagePreviewUrl} alt="product-image" />}
 
-        <button type="submit">Save</button>
-        <Link to={`/products/${id}`}>Cancel</Link>
-      </form>
+          <button type="submit">Save</button>
+          <Link to={`/products/${id}`}>Cancel</Link>
+        </form>
+      </div>
     </div>
   );
 };
