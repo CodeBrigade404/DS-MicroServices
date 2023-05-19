@@ -46,13 +46,24 @@ export const eventhandler = async (req, res) => {
         { new: true }
       );
       console.log("product", product.quantity);
+      res.send({ status: "OK" });
     } catch (error) {
       console.error("Error updating product quantity:", error);
       res.status(500).send({ error: "Failed to update product quantity" });
     }
+  } else if (type === "AdminProductDeleted") {
+    const { productId } = data;
+    try {
+      const deletedProduct = await Product.findByIdAndDelete(productId);
 
-    res.send({ status: "OK" });
+      res.send({ status: "OK" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error" });
+    }
+    console.log("AdminProductDeleted");
   } else {
+    console.log("Unneeded event");
     res.send({ status: "OK" });
   }
 };

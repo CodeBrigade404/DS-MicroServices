@@ -10,6 +10,7 @@ app.post("/events", (req, res) => {
   const { type, data } = event;
 
   console.log(event.type);
+  //console.log("data", data);
 
   // //payment
   // axios.post("http://localhost:4000/events", event).catch((err) => {
@@ -30,6 +31,12 @@ app.post("/events", (req, res) => {
   //   console.log(err.message);
   // });
 
+  // //admin
+  axios.post("http://localhost:4006/events", event).catch((err) => {
+    console.log(err.message);
+  });
+
+  console.log("all event send successfully");
   res.send({ status: "OK" });
 });
 

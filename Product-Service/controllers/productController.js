@@ -1,5 +1,6 @@
 import Product from "../models/productModel.js";
 import cloudinary from "../cloudinary.js";
+import axios from "axios";
 
 import fs from "fs";
 
@@ -30,6 +31,14 @@ export const createProductController = async (req, res) => {
       category,
       imageUrl: url,
       seller: sellerId,
+    });
+    console.log(newProduct);
+
+    await axios.post("http://localhost:5000/events", {
+      type: "ProductAdded",
+      data: {
+        newProduct,
+      },
     });
 
     res.status(201).json(newProduct._id.toString());
