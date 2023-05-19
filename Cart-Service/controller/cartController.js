@@ -57,6 +57,8 @@ const getCart = async (req, res) => {
 const removeFromCart = async (req, res) => {
   try {
     const { userId, productId } = req.params;
+    const quantity = req.body.quantity;
+    console.log("quantity", quantity);
     const result = await Cart.updateOne(
       { userId },
       { $pull: { items: { productId } } }
