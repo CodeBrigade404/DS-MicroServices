@@ -12,11 +12,12 @@ const authRoutes = require('./routes/auth.routes');
 const userDetailRoutes = require('./routes/userDetail.routes');
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-  })
-);
+// app.use(
+//   cors({
+//     origin: process.env.CLIENT_URL,
+//   })
+// );
+app.use(cors());
 
 //database connection
 db();
