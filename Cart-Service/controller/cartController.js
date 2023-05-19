@@ -1,5 +1,3 @@
-//const Cart = require('../model/cartmodel');
-import axios from "axios";
 import Cart from "../model/cartmodel.js";
 
 const addToCart = async (req, res) => {
@@ -57,18 +55,6 @@ const getCart = async (req, res) => {
 const removeFromCart = async (req, res) => {
   try {
     const { userId, productId } = req.params;
-    const quantity = req.body.quantity;
-    console.log("quantity", quantity);
-
-    await axios.post("http://localhost:5000/events", {
-      type: "CardDeleted",
-      data: {
-        userId,
-        productId,
-        quantity,
-      },
-    });
-
     const result = await Cart.updateOne(
       { userId },
       { $pull: { items: { productId } } }
@@ -87,17 +73,8 @@ const removeFromCart = async (req, res) => {
 const updateCartQuantity = async (req, res) => {
   try {
     const { userId, productId } = req.params;
-    const { quantity, action } = req.body;
+    const { quantity } = req.body;
 
-    await axios.post("http://localhost:5000/events", {
-      type: "QuntityUpdated",
-      data: {
-        userId,
-        productId,
-        quantity,
-        action,
-      },
-    });
     let cart = await Cart.findOne({ userId });
 
     if (!cart) {
