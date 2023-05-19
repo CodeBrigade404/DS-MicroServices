@@ -34,10 +34,7 @@ function Cart() {
   }, [userData]);
 
   useEffect(() => {
-    const total = cartItems.reduce(
-      (acc, item) => acc + item.quantity * item.price,
-      0
-    );
+    const total = cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0);
     setTotalBill(total.toFixed(2));
     localStorage.setItem("totalBill", total.toFixed(2));
   }, [cartItems]);
@@ -52,14 +49,10 @@ function Cart() {
 
     setCartItems(updatedItems);
     try {
-      await axios.put(
-        `http://localhost:4004/cart/cart/${userData}/${productId}`,
-        {
-          quantity: updatedItems.find((item) => item.productId === productId)
-            ?.quantity,
-          action: "increment",
-        }
-      );
+      await axios.put(`http://localhost:4004/cart/cart/${userData}/${productId}`, {
+        quantity: updatedItems.find((item) => item.productId === productId)?.quantity,
+        action: "increment",
+      });
     } catch (error) {
       console.error(error);
       // Handle error state or display error message
@@ -79,14 +72,10 @@ function Cart() {
 
     setCartItems(updatedItems);
     try {
-      await axios.put(
-        `http://localhost:4004/cart/cart/${userData}/${productId}`,
-        {
-          quantity: updatedItems.find((item) => item.productId === productId)
-            ?.quantity,
-          action: "decrement",
-        }
-      );
+      await axios.put(`http://localhost:4004/cart/cart/${userData}/${productId}`, {
+        quantity: updatedItems.find((item) => item.productId === productId)?.quantity,
+        action: "decrement",
+      });
     } catch (error) {
       console.error(error);
       // Handle error state or display error message
@@ -126,59 +115,56 @@ function Cart() {
   };
 
   return (
-    <div className="container">
-    <div className="d-flex justify-content-center"> 
-      <table className="table">
-        <thead className="thead-dark">
-          <tr>
-            <th>Product Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cartItems.map((item) => (
-            <tr key={item._id}>
-              <td>{item.name}</td>
-              <td>${item.price}</td>
-              <td>
-                <div className="btn-group" role="group">
-                  <button
-                    className="btn btn-sm btn-secondary"
-                    onClick={() => decrementQuantity(item.productId)}
-                  >
-                    -
-                  </button>
-                  <button className="btn btn-sm btn-light">
-                    {item.quantity}
-                  </button>
-                  <button
-                    className="btn btn-sm btn-secondary"
-                    onClick={() => incrementQuantity(item.productId)}
-                  >
-                    +
-                  </button>
-                </div>
-              </td>
-              <td>${calculateTotal(item)}</td>
-              <td>
-                <button
-                  className="btn btn-sm btn-danger"
-                  onClick={() => removeItem(item.productId, item.quantity)}
-                >
-                  Remove
-                </button>
-              </td>
+    <div className='container'>
+      <div className='d-flex justify-content-center'>
+        <table className='table'>
+          <thead className='thead-dark'>
+            <tr>
+              <th>Product Name</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <p>Total bill: ${totalBill}</p>
-      <button type="submit" className="btn btn-success" onClick={onClick}>
-        Checkout
-      </button>
+          </thead>
+          <tbody>
+            {cartItems.map((item) => (
+              <tr key={item._id}>
+                <td>{item.name}</td>
+                <td>${item.price}</td>
+                <td>
+                  <div className='btn-group' role='group'>
+                    <button
+                      className='btn btn-sm btn-secondary'
+                      onClick={() => decrementQuantity(item.productId)}>
+                      -
+                    </button>
+                    <button className='btn btn-sm btn-light'>{item.quantity}</button>
+                    <button
+                      className='btn btn-sm btn-secondary'
+                      onClick={() => incrementQuantity(item.productId)}>
+                      +
+                    </button>
+                  </div>
+                </td>
+                <td>${calculateTotal(item)}</td>
+                <td>
+                  <button
+                    className='btn btn-sm btn-danger'
+                    onClick={() => removeItem(item.productId, item.quantity)}>
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <p>Total bill: ${totalBill}</p>
+        <button type='submit' className='btn btn-success' onClick={onClick}>
+          Checkout
+        </button>
       </div>
     </div>
   );
