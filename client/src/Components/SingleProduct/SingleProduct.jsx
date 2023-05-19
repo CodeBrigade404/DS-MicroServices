@@ -31,27 +31,24 @@ const SingleProduct = () => {
 
     if (cookieValue) {
       const userDataObj = JSON.parse(cookieValue);
-      setUserData(userDataObj._id); 
+      setUserData(userDataObj._id);
     }
   }, []);
   console.log(userData);
 
   const addToCart = async () => {
     try {
-    
       const userId = Cookies.get("_id");
       console.log(userId);
 
-      
       await axios.post("http://localhost:4004/cart/cart", {
         userId: userData,
         productId: id,
-        quantity: 1, 
-        price: data.price, 
-        name: data.name
+        quantity: 0,
+        price: data.price,
+        name: data.name,
       });
 
-   
       window.location = "/cart";
     } catch (error) {
       console.error(error);
