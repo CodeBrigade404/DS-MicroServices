@@ -93,9 +93,13 @@ function Cart() {
     }
   };
 
-  const removeItem = async (productId) => {
+  const removeItem = async (productId, quantity) => {
     await axios
-      .delete(`http://localhost:4004/cart/cart/${userData}/${productId}`)
+      .delete(`http://localhost:4004/cart/cart/${userData}/${productId}`, {
+        data: {
+          quantity: quantity,
+        },
+      })
       .then((response) => {
         setCartItems(response.data);
       })
@@ -170,7 +174,7 @@ function Cart() {
               <td>
                 <button
                   className="btn btn-sm btn-danger"
-                  onClick={() => removeItem(item.productId)}
+                  onClick={() => removeItem(item.productId, item.quantity)}
                 >
                   Remove
                 </button>
