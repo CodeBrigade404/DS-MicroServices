@@ -9,19 +9,17 @@ app.post("/events", (req, res) => {
   const event = req.body;
   const { type, data } = event;
 
-  const { userId, productId, quantity, action } = data;
   console.log(event.type);
-  console.log(quantity, action);
 
   // //payment
   // axios.post("http://localhost:4000/events", event).catch((err) => {
   //   console.log(err.message);
   // });
 
-  // //product
-  // axios.post("http://localhost:4001/events", event).catch((err) => {
-  //   console.log(err.message);
-  // });
+  //product
+  axios.post("http://localhost:4001/events", event).catch((err) => {
+    console.log(err.message);
+  });
 
   // //order
   // axios.post("http://localhost:4002/events", event).catch((err) => {
