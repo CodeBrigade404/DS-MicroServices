@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { BsArrowLeft } from "react-icons/bs"; // Import the arrow icon from a library
+import "./SingleProduct.css"; // Import the CSS file
 
 const SingleProduct = () => {
   const [data, setData] = useState(null);
   const { id } = useParams();
   const [userData, setUserData] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4001/products/getProductbyId/${id}`
-        );
+        const response = await axios.get(`http://localhost:4001/products/getProductbyId/${id}`);
         setData(response.data);
       } catch (error) {
         console.error(error);
@@ -34,7 +35,6 @@ const SingleProduct = () => {
       setUserData(userDataObj._id);
     }
   }, []);
-  console.log(userData);
 
   const addToCart = async () => {
     try {
@@ -49,10 +49,14 @@ const SingleProduct = () => {
         name: data.name,
       });
 
-      window.location = "/cart";
+      navigate("/cart");
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const handleGoBack = () => {
+    navigate("/");
   };
 
   if (!data) {
@@ -60,19 +64,24 @@ const SingleProduct = () => {
   }
 
   return (
-    <div>
-      <div>
+    <div className='single-product-card'>
+      <button className='back-button' onClick={handleGoBack}>
+        <BsArrowLeft className='back-icon' />
+      </button>
+      <div className='image-container'>
         <img src={data.imageUrl} alt={data.name} />
       </div>
-      <div>
+      <div className='product-details'>
         <h2>{data.name}</h2>
         <p>{data.description}</p>
         <p>Price: ${data.price}</p>
         <p>Quantity: {data.quantity}</p>
         <p>Category: {data.category}</p>
         <p>Seller: {data.seller}</p>
-        <div>
-          <button onClick={addToCart}>Buy</button>
+        <div className='button-container'>
+          <button className='buy-button' onClick={addToCart}>
+            Buy
+          </button>
         </div>
       </div>
     </div>
