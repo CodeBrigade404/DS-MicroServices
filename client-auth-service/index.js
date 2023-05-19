@@ -9,6 +9,7 @@ const port = process.env.PORT || 4003;
 const db = require('./config/db.config');
 const userRoutes = require('./routes/user.routes');
 const authRoutes = require('./routes/auth.routes');
+const userDetailRoutes = require('./routes/userDetail.routes');
 
 app.use(express.json());
 app.use(
@@ -24,5 +25,6 @@ app.use(bodyParser.json());
 //routes
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/users', userDetailRoutes);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

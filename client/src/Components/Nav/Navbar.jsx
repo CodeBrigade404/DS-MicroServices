@@ -13,6 +13,8 @@ const NavBar = ({ onLogout }) => {
   const handleLogout = () => {
     if (typeof onLogout === "function") {
       onLogout();
+      document.cookie = "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      window.location.href = "/login"; 
     }
   };
 
@@ -39,7 +41,7 @@ const NavBar = ({ onLogout }) => {
           <Link to='/cart' className='navbar-item'>
             Cart
           </Link>
-          <Link to='/account' className='navbar-item'>
+          <Link to='/user' className='navbar-item'>
             Account
           </Link>
         </div>

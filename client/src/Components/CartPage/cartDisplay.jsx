@@ -118,7 +118,7 @@ function Cart() {
       const response = await axios.post(
         "http://localhost:4000/create-checkout-session",
         {
-          items: cartItems,
+          items: items,
         }
       );
       window.location = response.data.url;
