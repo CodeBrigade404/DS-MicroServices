@@ -57,6 +57,7 @@ function Cart() {
         {
           quantity: updatedItems.find((item) => item.productId === productId)
             ?.quantity,
+          action: "increment",
         }
       );
     } catch (error) {
@@ -83,6 +84,7 @@ function Cart() {
         {
           quantity: updatedItems.find((item) => item.productId === productId)
             ?.quantity,
+          action: "decrement",
         }
       );
     } catch (error) {
