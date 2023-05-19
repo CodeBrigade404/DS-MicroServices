@@ -20,7 +20,7 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
       style={{ fontFamily: "robot", fontWeight: "bold", fontSize: "20px" }}
     >
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+        <Link className="navbar-brand" to="/" style={{ color: "#ffffff" }}>
           iHerb® - Official Site
         </Link>
         <button
@@ -59,28 +59,45 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
             </li>
             {user && (
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/">
+                <Link
+                  className="nav-link active"
+                  aria-current="page"
+                  to="/"
+                  style={{ color: "#ffffff" }}
+                >
                   Home
                 </Link>
               </li>
             )}
             {user && (
               <li className="nav-item">
-                <Link className="nav-link" to="/about">
+                <Link
+                  className="nav-link"
+                  to="/about"
+                  style={{ color: "#ffffff" }}
+                >
                   About
                 </Link>
               </li>
             )}
             {user && (
               <li className="nav-item">
-                <Link className="nav-link" to="/productsform/">
+                <Link
+                  className="nav-link"
+                  to="/productsform/"
+                  style={{ color: "#ffffff" }}
+                >
                   Add a Product
                 </Link>
               </li>
             )}
             {user && (
               <li className="nav-item">
-                <Link className="nav-link" to="/myProduct">
+                <Link
+                  className="nav-link"
+                  to="/myProduct"
+                  style={{ color: "#ffffff" }}
+                >
                   My products
                 </Link>
               </li>
@@ -88,19 +105,29 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
 
             {user && (
               <li className="nav-item" onClick={handleClick}>
-                <Link className="nav-link">Logout</Link>
+                <Link className="nav-link" style={{ color: "#ffffff" }}>
+                  Logout
+                </Link>
               </li>
             )}
             {!user && (
               <li className="nav-item">
-                <Link className="nav-link" to="/signup">
+                <Link
+                  className="nav-link"
+                  to="/signup"
+                  style={{ color: "#ffffff" }}
+                >
                   Signup
                 </Link>
               </li>
             )}
             {!user && (
               <li className="nav-item">
-                <Link className="nav-link" to="/login">
+                <Link
+                  className="nav-link"
+                  to="/login"
+                  style={{ color: "#ffffff" }}
+                >
                   Login
                 </Link>
               </li>
