@@ -1,7 +1,12 @@
+.add-product-form-container {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
 .add-product-form {
   display: flex;
   flex-direction: column;
-  max-width: 600px;
+  max-width: 50%;
   margin: 0 auto;
   padding: 20px;
   background-color: #f2f2f2;
