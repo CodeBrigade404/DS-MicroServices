@@ -127,7 +127,7 @@ function Cart() {
 
   return (
     <div className="container">
-      <h1>My Cart</h1>
+    <div className="d-flex justify-content-center"> 
       <table className="table">
         <thead className="thead-dark">
           <tr>
@@ -179,6 +179,7 @@ function Cart() {
       <button type="submit" className="btn btn-success" onClick={onClick}>
         Checkout
       </button>
+      </div>
     </div>
   );
 }
