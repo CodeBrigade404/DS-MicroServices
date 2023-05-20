@@ -3,12 +3,12 @@ import mongoose from 'mongoose';
 const orderSchema = new mongoose.Schema(
   {
     userId: {
-      type: Number,
+      type: String,
       required: true,
     },
     addressId: {
       type: String,
-      required: true,
+      required: false,
     },
     totalAmount: {
       type: Number,
@@ -39,7 +39,7 @@ const orderSchema = new mongoose.Schema(
     paymentType: {
       type: String,
       enum: ['cod', 'card'],
-      required: true,
+      required: false,
     },
     orderStatus: [
       {
