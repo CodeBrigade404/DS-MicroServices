@@ -115,7 +115,7 @@ function Cart() {
   };
 
   return (
-    <div className='container'>
+    <div className='container' style={{marginTop:"6%"}}>
       <div className='d-flex justify-content-center'>
         <table className='table'>
           <thead className='thead-dark'>
