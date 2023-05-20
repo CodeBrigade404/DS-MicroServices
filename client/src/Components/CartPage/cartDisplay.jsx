@@ -18,7 +18,7 @@ function Cart() {
       setUserData(userDataObj._id);
     }
   }, []);
-  console.log(cartItems);
+  console.log(userData);
 
   useEffect(() => {
     if (userData) {
@@ -34,7 +34,10 @@ function Cart() {
   }, [userData]);
 
   useEffect(() => {
-    const total = cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0);
+    const total = cartItems.reduce(
+      (acc, item) => acc + item.quantity * item.price,
+      0
+    );
     setTotalBill(total.toFixed(2));
     localStorage.setItem("totalBill", total.toFixed(2));
   }, [cartItems]);
@@ -49,10 +52,14 @@ function Cart() {
 
     setCartItems(updatedItems);
     try {
-      await axios.put(`http://localhost:4004/cart/cart/${userData}/${productId}`, {
-        quantity: updatedItems.find((item) => item.productId === productId)?.quantity,
-        action: "increment",
-      });
+      await axios.put(
+        `http://localhost:4004/cart/cart/${userData}/${productId}`,
+        {
+          quantity: updatedItems.find((item) => item.productId === productId)
+            ?.quantity,
+          action: "increment",
+        }
+      );
     } catch (error) {
       console.error(error);
       // Handle error state or display error message
@@ -72,10 +79,14 @@ function Cart() {
 
     setCartItems(updatedItems);
     try {
-      await axios.put(`http://localhost:4004/cart/cart/${userData}/${productId}`, {
-        quantity: updatedItems.find((item) => item.productId === productId)?.quantity,
-        action: "decrement",
-      });
+      await axios.put(
+        `http://localhost:4004/cart/cart/${userData}/${productId}`,
+        {
+          quantity: updatedItems.find((item) => item.productId === productId)
+            ?.quantity,
+          action: "decrement",
+        }
+      );
     } catch (error) {
       console.error(error);
       // Handle error state or display error message
@@ -101,17 +112,54 @@ function Cart() {
     return item.quantity * item.price;
   };
 
+  const newOrder = async () => {
+    const orderPayload = {
+      userId: userData,
+      totalAmount: totalBill,
+      items: cartItems.map((cartItem) => ({
+        productId: cartItem.productId,
+        Price: cartItem.price,
+        purchasedQty: cartItem.quantity,
+      })),
+      paymentStatus: 'pending',
+      paymentType: 'card',
+      orderStatus: [
+        {
+          type: 'ordered',
+          date: new Date(),
+          isCompleted: false,
+        },
+      ],
+    };
+  
+    try {
+      const response = await axios.post('http://localhost:4002/order/', orderPayload);
+      console.log('Order Placed');
+      // Handle the response if needed
+    } catch (error) {
+      console.error('Error placing the order:', error);
+      // Handle the error if needed
+    }
+  };
+  
+  
   const onClick = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:4000/create-checkout-session", {
-        cartItems: cartItems,
-      });
+      newOrder();
+      const response = await axios.post(
+        "http://localhost:4000/create-checkout-session",
+        {
+          cartItems: cartItems,
+        }
+      );
       window.location = response.data.url;
     } catch (err) {
       console.log(err.message);
     }
+
+   
   };
 
   return (
@@ -133,16 +181,20 @@ function Cart() {
                 <td>{item.name}</td>
                 <td>${item.price}</td>
                 <td>
-                  <div className='btn-group' role='group'>
+                  <div className="btn-group" role="group">
                     <button
-                      className='btn btn-sm btn-secondary'
-                      onClick={() => decrementQuantity(item.productId)}>
+                      className="btn btn-sm btn-secondary"
+                      onClick={() => decrementQuantity(item.productId)}
+                    >
                       -
                     </button>
-                    <button className='btn btn-sm btn-light'>{item.quantity}</button>
+                    <button className="btn btn-sm btn-light">
+                      {item.quantity}
+                    </button>
                     <button
-                      className='btn btn-sm btn-secondary'
-                      onClick={() => incrementQuantity(item.productId)}>
+                      className="btn btn-sm btn-secondary"
+                      onClick={() => incrementQuantity(item.productId)}
+                    >
                       +
                     </button>
                   </div>
@@ -150,8 +202,9 @@ function Cart() {
                 <td>${calculateTotal(item)}</td>
                 <td>
                   <button
-                    className='btn btn-sm btn-danger'
-                    onClick={() => removeItem(item.productId, item.quantity)}>
+                    className="btn btn-sm btn-danger"
+                    onClick={() => removeItem(item.productId, item.quantity)}
+                  >
                     Remove
                   </button>
                 </td>
@@ -162,7 +215,7 @@ function Cart() {
       </div>
       <div>
         <p>Total bill: ${totalBill}</p>
-        <button type='submit' className='btn btn-success' onClick={onClick}>
+        <button type="submit" className="btn btn-success" onClick={onClick}>
           Checkout
         </button>
       </div>

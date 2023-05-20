@@ -60,7 +60,7 @@ const removeFromCart = async (req, res) => {
     const quantity = req.body.quantity;
     console.log("quantity", quantity);
 
-    await axios.post("http://localhost:5000/events", {
+    await axios.post("http://localhost:5001/events", {
       type: "CardDeleted",
       data: {
         userId,
@@ -89,7 +89,7 @@ const updateCartQuantity = async (req, res) => {
     const { userId, productId } = req.params;
     const { quantity, action } = req.body;
 
-    await axios.post("http://localhost:5000/events", {
+    await axios.post("http://localhost:5001/events", {
       type: "QuntityUpdated",
       data: {
         userId,
