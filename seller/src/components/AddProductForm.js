@@ -71,6 +71,9 @@ const AddProductForm = () => {
   };
   return (
     <div className="add-product-form-container">
+      <div className="just text">
+        <h1>Add a Product</h1>
+      </div>
       <form className="add-product-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name</label>
