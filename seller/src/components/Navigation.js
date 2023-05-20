@@ -4,6 +4,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 import { FaSearch } from "react-icons/fa";
 
+import "./Navigation.css";
 const Navbar = ({ searchTerm, setSearchTerm }) => {
   const navigate = useNavigate();
   const { logout } = useLogout();
@@ -17,7 +18,7 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
   return (
     <nav
       className="navbar navbar-expand-lg navbar-light bg-success"
-      style={{ fontFamily: "robot", fontWeight: "bold", fontSize: "20px" }}
+      style={{ fontFamily: "sans-serif", fontWeight: "bold", fontSize: "20px" }}
     >
       <div className="container-fluid">
         <Link className="navbar-brand" to="/" style={{ color: "#ffffff" }}>
@@ -69,17 +70,7 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
                 </Link>
               </li>
             )}
-            {user && (
-              <li className="nav-item">
-                <Link
-                  className="nav-link"
-                  to="/about"
-                  style={{ color: "#ffffff" }}
-                >
-                  About
-                </Link>
-              </li>
-            )}
+
             {user && (
               <li className="nav-item">
                 <Link
