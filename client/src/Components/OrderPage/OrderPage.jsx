@@ -5,16 +5,27 @@ import './order.css';
 
 const OrdersList = ({ userId }) => {
   const [items, setItems] = useState([]);
-  const [allitems, ALLsetItems] = useState([]);
-  const [orderStatus, OrderStatus] = useState([]);
+  const [allitems, setAllItems] = useState([]);
+  const [orderStatus, setOrderStatus] = useState([]);
+  const [userData, setUserData] = useState('');
+
+  useEffect(() => {
+    const cookieValue = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('userData='))
+      ?.split('=')[1];
+
+    if (cookieValue) {
+      const userDataObj = JSON.parse(cookieValue);
+      setUserData(userDataObj._id);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4002/order/orderstatus/123`
-        );
-        OrderStatus(response.data);
+        const response = await axios.get(`http://localhost:4002/order/orderstatus/${userData}`);
+        setOrderStatus(response.data);
         console.log(response.data);
       } catch (error) {
         console.error(error);
@@ -22,12 +33,12 @@ const OrdersList = ({ userId }) => {
     };
 
     fetchItems();
-  }, [userId]);
+  }, [userData]);
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get(`http://localhost:4002/order/123`);
+        const response = await axios.get(`http://localhost:4002/order/${userData}`);
         setItems(response.data);
         console.log(response.data);
       } catch (error) {
@@ -36,23 +47,32 @@ const OrdersList = ({ userId }) => {
     };
 
     fetchItems();
-  }, [userId]);
+  }, [userData]);
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4002/order/orders/123`
-        );
-        ALLsetItems(response.data);
-        //console.log(response.data);
+        const response = await axios.get(`http://localhost:4002/order/orders/${userData}`);
+        setAllItems(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchItems();
-  }, [userId]);
+  }, [userData]);
+
+  useEffect(() => {
+    const storedAllItems = localStorage.getItem('allItems');
+    if (storedAllItems) {
+      setAllItems(JSON.parse(storedAllItems));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('allItems', JSON.stringify(allitems));
+  }, [allitems]);
 
   return (
     <div className='container'>
@@ -61,29 +81,27 @@ const OrdersList = ({ userId }) => {
         <div className='col-md-12'>
           <h4>All Orders</h4>
           <ul className='list-group'>
-            {allitems.map((allitems) => (
-              <li className='list-group-item order-item' key={allitems.userId}>
+            {allitems.map((allitem) => (
+              <li className='list-group-item order-item' key={allitem.userId}>
                 <div className='order-header'>
-                  <p className='order-id'>Order ID: {allitems._id}</p>
+                  <p className='order-id'>Order ID: {allitem._id}</p>
                   <p className='order-date'>
-                    Order Date:{' '}
-                    {new Date(allitems.createdAt).toLocaleDateString()}
+                    Order Date: {new Date(allitem.createdAt).toLocaleDateString()}
                   </p>
                   <p className='order-time'>
-                    Order Time:{' '}
-                    {new Date(allitems.createdAt).toLocaleTimeString()}
+                    Order Time: {new Date(allitem.createdAt).toLocaleTimeString()}
                   </p>
                 </div>
                 <div className='order-body'>
-                  <p className='order-address'>Address: {allitems.addressId}</p>
+                  <p className='order-address'>Address: {allitem.addressId}</p>
 
-                  {allitems.orderStatus.map((ordersta) => (
-                    <p className='order-status'>orderStatus: {ordersta.type}</p>
+                  {allitem.orderStatus.map((ordersta) => (
+                    <p className='order-status' key={ordersta.type}>
+                      orderStatus: {ordersta.type}
+                    </p>
                   ))}
 
-                  <p className='order-amount'>
-                    Total Amount: Rs. {allitems.totalAmount}
-                  </p>
+                  <p className='order-amount'>Total Amount: Rs. {allitem.totalAmount}</p>
                   <table className='table table-striped'>
                     <thead>
                       <tr>
@@ -93,10 +111,10 @@ const OrdersList = ({ userId }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {allitems.items.map((item) => (
+                      {allitem.items.map((item) => (
                         <tr key={item.productId}>
                           <td>{item.productId}</td>
-                          <td>Rs. {item.Price}</td>
+                          <td>$. {item.Price}</td>
                           <td>{item.purchasedQty}</td>
                         </tr>
                       ))}

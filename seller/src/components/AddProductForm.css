@@ -6,11 +6,12 @@
 .add-product-form {
   display: flex;
   flex-direction: column;
-  max-width: 50%;
+  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f2f2f2;
   border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .form-group {
@@ -54,8 +55,33 @@ label {
 .btn:hover {
   background-color: #004d99;
 }
+
 .button-container {
   display: flex;
-  /* justify-content: center; */
+  justify-content: flex-end;
   margin-top: 20px;
+}
+
+.image-preview {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.image-preview img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+.just.text {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.just.text h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
 }

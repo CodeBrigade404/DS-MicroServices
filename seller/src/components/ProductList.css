@@ -8,14 +8,19 @@
 .product-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .product-list-item {
   margin: 20px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 10px;
   overflow: hidden;
   width: 250px;
+}
+
+.product-list-item:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15), 0 5px 9px rgba(8, 90, 8, 0.757); /* Update box shadow on hover */
 }
 
 .product-list-item img {

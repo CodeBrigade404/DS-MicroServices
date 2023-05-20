@@ -32,10 +32,8 @@ const NavBar = ({ onLogout }) => {
           <Link to='/' className='navbar-item'>
             Home
           </Link>
-          <Link to='/products' className='navbar-item'>
-            Products
-          </Link>
-          <Link to='/orders' className='navbar-item'>
+      
+          <Link to='/order' className='navbar-item'>
             Orders
           </Link>
           <Link to='/cart' className='navbar-item'>
