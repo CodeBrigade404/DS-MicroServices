@@ -1,10 +1,11 @@
-import Product from '../models/productModel.js';
-import cloudinary from '../cloudinary.js';
+import Product from "../models/productModel.js";
+import cloudinary from "../cloudinary.js";
+import axios from "axios";
 
-import fs from 'fs';
+import fs from "fs";
 
 export const createProductController = async (req, res) => {
-  const uploader = async (path) => await cloudinary(path, 'Images');
+  const uploader = async (path) => await cloudinary(path, "Images");
 
   const file = req.file;
 
@@ -31,24 +32,26 @@ export const createProductController = async (req, res) => {
       imageUrl: url,
       seller: sellerId,
     });
-    await axios.post('http://localhost:4010/events', {
-      type: 'productCreated',
+    console.log(newProduct);
+
+    await axios.post("http://localhost:5000/events", {
+      type: "ProductAdded",
       data: {
         newProduct,
       },
     });
-    console.log(newProduct._id.toString());
+
     res.status(201).json(newProduct._id.toString());
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
 //update by id
 
 export const updateProductController = async (req, res) => {
-  const uploader = async (path) => await cloudinary(path, 'Images');
+  const uploader = async (path) => await cloudinary(path, "Images");
 
   const file = req.file;
   let url;
@@ -73,7 +76,7 @@ export const updateProductController = async (req, res) => {
     res.status(200).json(updatedProduct);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -88,7 +91,7 @@ export const deleteProductController = async (req, res) => {
     res.status(200).json(deletedProduct);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -99,12 +102,12 @@ export const getProductbyIdController = async (req, res) => {
   try {
     const product = await Product.findById(id);
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ message: "Product not found" });
     }
     res.status(200).json(product);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -116,7 +119,7 @@ export const getAllProductsController = async (req, res) => {
     res.status(200).json(products);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -128,12 +131,12 @@ export const getProductByNameController = async (req, res) => {
     const product = await Product.findOne({ name });
 
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ message: "Product not found" });
     }
     res.status(200).json(product);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 //get product by sellerId
@@ -144,19 +147,19 @@ export const getProductbySellerIdController = async (req, res) => {
     const product = await Product.find({ seller });
 
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ message: "Product not found" });
     }
     res.status(200).json(product);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
 export const ImageUploaderCtrl1 = async (req, res) => {
-  const uploader = async (path) => await cloudinary(path, 'Images');
+  const uploader = async (path) => await cloudinary(path, "Images");
 
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     const urls = [];
     const files = req.files;
 
@@ -168,20 +171,20 @@ export const ImageUploaderCtrl1 = async (req, res) => {
     }
 
     res.status(200).json({
-      message: 'Image Upload Succcessfully',
+      message: "Image Upload Succcessfully",
       data: urls,
     });
   } else {
     res.status(405).json({
-      err: 'not succeful',
+      err: "not succeful",
     });
   }
 };
 
 export const ImageUploaderCtrl = async (req, res) => {
-  const uploader = async (path) => await cloudinary(path, 'Images');
+  const uploader = async (path) => await cloudinary(path, "Images");
 
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     const urls = [];
     const file = req.file;
 
@@ -191,12 +194,12 @@ export const ImageUploaderCtrl = async (req, res) => {
     fs.unlinkSync(path);
 
     res.status(200).json({
-      message: 'Image Upload Succcessfully',
+      message: "Image Upload Succcessfully",
       data: urls,
     });
   } else {
     res.status(405).json({
-      err: 'not succeful',
+      err: "not succeful",
     });
   }
 };

@@ -1,14 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogout } from "../hooks/useLogout";
+import { useAuthContext } from "../hooks/useAuthContext";
 
-// ...
 import { FaSearch } from "react-icons/fa";
 
 const Navbar = ({ searchTerm, setSearchTerm }) => {
+  const navigate = useNavigate();
+  const { logout } = useLogout();
+  const { user } = useAuthContext();
+
+  const handleClick = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-success">
+    <nav
+      className="navbar navbar-expand-lg navbar-light bg-success"
+      style={{ fontFamily: "robot", fontWeight: "bold", fontSize: "20px" }}
+    >
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
-          My Store
+        <Link className="navbar-brand" to="/" style={{ color: "#ffffff" }}>
+          iHerb® - Official Site
         </Link>
         <button
           className="navbar-toggler"
@@ -44,26 +57,81 @@ const Navbar = ({ searchTerm, setSearchTerm }) => {
                 </div>
               </div>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/about">
-                About
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/productsform/seller1">
-                Add a Product
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/myProduct">
-                My products
-              </Link>
-            </li>
+            {user && (
+              <li className="nav-item">
+                <Link
+                  className="nav-link active"
+                  aria-current="page"
+                  to="/"
+                  style={{ color: "#ffffff" }}
+                >
+                  Home
+                </Link>
+              </li>
+            )}
+            {user && (
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  to="/about"
+                  style={{ color: "#ffffff" }}
+                >
+                  About
+                </Link>
+              </li>
+            )}
+            {user && (
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  to="/productsform/"
+                  style={{ color: "#ffffff" }}
+                >
+                  Add a Product
+                </Link>
+              </li>
+            )}
+            {user && (
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  to="/myProduct"
+                  style={{ color: "#ffffff" }}
+                >
+                  My products
+                </Link>
+              </li>
+            )}
+
+            {user && (
+              <li className="nav-item" onClick={handleClick}>
+                <Link className="nav-link" style={{ color: "#ffffff" }}>
+                  Logout
+                </Link>
+              </li>
+            )}
+            {!user && (
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  to="/signup"
+                  style={{ color: "#ffffff" }}
+                >
+                  Signup
+                </Link>
+              </li>
+            )}
+            {!user && (
+              <li className="nav-item">
+                <Link
+                  className="nav-link"
+                  to="/login"
+                  style={{ color: "#ffffff" }}
+                >
+                  Login
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>

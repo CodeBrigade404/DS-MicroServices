@@ -7,20 +7,13 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 const port = process.env.PORT || 4000;
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-  })
-);
-
-const storeItems = new Map([
-  [1, { priceInCents: 1000, name: "Fancy Hat" }],
-  [2, { priceInCents: 4000, name: "Long Cloak" }],
-  [3, { priceInCents: 2000, name: "Magic Beans" }],
-]);
+app.use(cors());
 
 app.post("/create-checkout-session", async (req, res) => {
   try {
+    const cartItems = req.body.cartItems;
+    console.log("Items array from client:", cartItems);
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       shipping_address_collection: { allowed_countries: ["US", "LK"] },
@@ -48,19 +41,16 @@ app.post("/create-checkout-session", async (req, res) => {
           },
         },
       ],
-      line_items: req.body.items.map((items) => {
-        const storeItem = storeItems.get(items.id);
-        console.log("Store item:", storeItem);
-
+      line_items: cartItems.map((item) => {
         return {
           price_data: {
             currency: "usd",
             product_data: {
-              name: storeItem.name,
+              name: item.name,
             },
-            unit_amount: storeItem.priceInCents,
+            unit_amount: item.price * 100, // assuming total is in dollars and converted to cents
           },
-          quantity: items.quantity,
+          quantity: item.quantity,
         };
       }),
       mode: "payment",
@@ -80,8 +70,6 @@ app.post("/create-checkout-session", async (req, res) => {
       res.status(500).json({ error: "Failed to create session" });
     }
     console.log(session.url);
-    const items = req.body.items;
-    console.log("Items array from client:", items);
   } catch (error) {
     console.log("Error", error);
     res.status(500).json({ error: "Payment Failed" });
