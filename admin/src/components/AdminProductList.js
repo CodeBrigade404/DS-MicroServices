@@ -8,12 +8,10 @@ const ProductList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        "http://localhost:4006/api/admin/products/"
-      );
+      const response = await axios.get("http://localhost:4006/api/admin/products/");
       setData(response.data);
     };
-    //("http://localhost:8080/products/getProductbySellerId/seller");
+
     fetchData();
   }, []);
 
@@ -22,25 +20,37 @@ const ProductList = () => {
   }
 
   return (
-    <div className="bigbox">
-      <div className="product-list">
-        {data.map((item) => (
-          <div className="product-list-item" key={item._id}>
-            <Link to={`/product/${item._id}`}>
-              <img src={item.imageUrl} alt={item.name} />
-              <div>
-                <h5>{item.name}</h5>
-                <p>
-                  <span className="price">Price: ${item.price}</span>
-                </p>
-                <p>
-                  <span className="quantity">Quantity: {item.quantity}</span>
-                </p>
-              </div>
-            </Link>
-          </div>
-        ))}
-      </div>
+    <div className='bigbox'>
+      <table className='product-table'>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((item) => (
+            <tr className='product-row' key={item._id}>
+              <td>
+                <Link to={`/product/${item._id}`}>
+                  <h5>{item.name}</h5>
+                </Link>
+              </td>
+              <td>
+                <span className='price'>${item.price}</span>
+              </td>
+              <td>
+                <span className='quantity'>{item.quantity}</span>
+              </td>
+              <td>
+                <Link to={`/product/${item._id}`}>View Details</Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
