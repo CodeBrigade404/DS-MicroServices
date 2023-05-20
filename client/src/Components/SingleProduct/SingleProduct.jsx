@@ -44,7 +44,7 @@ const SingleProduct = () => {
       await axios.post("http://localhost:4004/cart/cart", {
         userId: userData,
         productId: id,
-        quantity: 0,
+        quantity: 1,
         price: data.price,
         name: data.name,
       });
